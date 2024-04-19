@@ -61,10 +61,53 @@ SELECT * FROM produto;
 alter table produto add preco double not null after tipo;
 
 insert into pedido values 
-(null, '2024-04-11', 590.90, 1);
+(null, '2024-04-11', 590.90, 1),
+(null, '2024-04-18', 113.90, 2);
+
+update produto set preco = 4.99 where idProduto = 1;
+
+update produto set preco = 150.90 where idProduto = 2;
+
+update produto set preco = 6.99 where idProduto = 3;
 
 select * from pedido;
 
 insert into pedido_has_produto values 
 (1, 1),
-(1, 2);
+(1, 2),
+(2, 2);
+
+/* COMANDOS DQL */
+
+SELECT * FROM produto;
+SELECT COUNT(idProduto) 'Quantidade' FROM produto;
+
+SELECT * FROM pedido;
+SELECT SUM(valorTotal) 'Total (R$)' FROM pedido;
+
+SELECT MAX(valorTotal) 'Maior pedido'FROM pedido;
+
+SELECT MIN(valorTotal) 'Menor pedido' FROM pedido;
+
+SELECT AVG(valorTotal) 'Média' from pedido;
+
+SELECT idPedido, dataPedido 'Data da compra', nome 'Nome produto', preco 'Preço (R$)' FROM pedido_has_produto
+INNER JOIN pedido
+ON pedido_has_produto.fk_pedido = pedido.idPedido
+INNER JOIN produto
+on pedido_has_produto.fk_produto = produto.idProduto;
+
+SELECT idPedido, COUNT(nome) 'Quantidade de produtos' FROM pedido_has_produto
+INNER JOIN pedido
+ON pedido_has_produto.fk_pedido = pedido.idPedido
+INNER JOIN produto
+ON pedido_has_produto.fk_produto = produto.idProduto
+GROUP BY nome;
+
+SELECT produto.nome, COUNT(pedido.idPedido) 'Quantidade de produtos' FROM pedido_has_produto
+INNER JOIN pedido
+ON pedido_has_produto.fk_pedido = pedido.idPedido
+INNER JOIN produto
+ON pedido_has_produto.fk_produto = produto.idProduto
+GROUP BY nome;
+

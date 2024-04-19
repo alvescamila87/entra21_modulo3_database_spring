@@ -38,7 +38,7 @@ CREATE TABLE `pedido_has_produto` (
 
 LOCK TABLES `pedido_has_produto` WRITE;
 /*!40000 ALTER TABLE `pedido_has_produto` DISABLE KEYS */;
-INSERT INTO `pedido_has_produto` VALUES (1,1),(1,2);
+INSERT INTO `pedido_has_produto` VALUES (1,1),(1,2),(2,2);
 /*!40000 ALTER TABLE `pedido_has_produto` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-11 21:01:07
+-- Dump completed on 2024-04-19 18:50:50
