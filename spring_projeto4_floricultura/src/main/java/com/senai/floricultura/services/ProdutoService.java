@@ -22,11 +22,13 @@ public class ProdutoService {
     }
 
     public Produto atualizarProduto(Long id, Produto produto){
-        if(!produtoRepository.existsById(id)){
-            throw new RuntimeException("Produto não encontrado! ID: " + id);
-        }
         produto.setIdProduto(id);
         return produtoRepository.save(produto);
+    }
+
+    public void deletarProduto(Long id){
+        produtoRepository.deleteById(id);
+
     }
 
 
