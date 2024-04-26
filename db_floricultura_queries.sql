@@ -3,7 +3,7 @@ create database db_floricultura;
 use db_floricultura;
 
 create table cliente (
-	idCliente integer primary key auto_increment,
+	id_cliente integer primary key auto_increment,
     rg varchar(12) not null unique,
     nome varchar(255) not null,
     telefone varchar(11) not null,
@@ -13,23 +13,23 @@ create table cliente (
 desc cliente;
 
 create table produto(
-	idProduto integer primary key auto_increment,
+	id_produto integer primary key auto_increment,
     nome varchar(45) not null,
     tipo varchar (45) not null,
-    quantidadeEstoque integer
+    quantidade_estoque integer
 );
 
 desc produto;
 
 create table pedido(
-idPedido integer primary key auto_increment,
-dataPedido date not null,
-valorTotal double not null,
+id_pedido integer primary key auto_increment,
+data_pedido date not null,
+valor_total double not null,
 fk_cliente integer not null
 );
 
 alter table pedido add constraint fk_pedido_cliente 
-foreign key (fk_cliente) references cliente(idCliente);
+foreign key (fk_cliente) references cliente(id_cliente);
 
 create table pedido_has_produto(
 fk_pedido integer not null,
@@ -37,10 +37,10 @@ fk_produto integer not null
 );
 
 alter table pedido_has_produto add constraint fk_pedido_has_produto_pedido 
-foreign key (fk_pedido) references pedido(idPedido);
+foreign key (fk_pedido) references pedido(id_pedido);
 
 alter table pedido_has_produto add constraint fk_pedido_has_produto_produto
-foreign key (fk_produto) references produto(idProduto);
+foreign key (fk_produto) references produto(id_produto);
 
 /* MANIPULAR DADOS */
 
@@ -52,9 +52,9 @@ insert into cliente values
 SELECT * FROM cliente;
 
 insert into produto values 
-(NULL, "Margaridas", "Flor", 20),
-(NULL, "Porcelana", "Vaso", 3),
-(NULL, "Rosas", "Flor", 50);
+(NULL, "Margaridas", "Flor", 20, 4.99),
+(NULL, "Porcelana", "Vaso", 3, 150.90),
+(NULL, "Rosas", "Flor", 50, 6.99);
 
 SELECT * FROM produto;
 
@@ -64,11 +64,11 @@ insert into pedido values
 (null, '2024-04-11', 590.90, 1),
 (null, '2024-04-18', 113.90, 2);
 
-update produto set preco = 4.99 where idProduto = 1;
+/* update produto set preco = 4.99 where id_produto = 1;
 
-update produto set preco = 150.90 where idProduto = 2;
+update produto set preco = 150.90 where id_produto = 2;
 
-update produto set preco = 6.99 where idProduto = 3;
+update produto set preco = 6.99 where id_produto = 3;*/
 
 select * from pedido;
 
@@ -80,34 +80,34 @@ insert into pedido_has_produto values
 /* COMANDOS DQL */
 
 SELECT * FROM produto;
-SELECT COUNT(idProduto) 'Quantidade' FROM produto;
+SELECT COUNT(id_produto) 'Quantidade' FROM produto;
 
 SELECT * FROM pedido;
-SELECT SUM(valorTotal) 'Total (R$)' FROM pedido;
+SELECT SUM(valor_total) 'Total (R$)' FROM pedido;
 
-SELECT MAX(valorTotal) 'Maior pedido'FROM pedido;
+SELECT MAX(valor_total) 'Maior pedido'FROM pedido;
 
-SELECT MIN(valorTotal) 'Menor pedido' FROM pedido;
+SELECT MIN(valor_total) 'Menor pedido' FROM pedido;
 
-SELECT AVG(valorTotal) 'Média' from pedido;
+SELECT AVG(valor_total) 'Média' from pedido;
 
-SELECT idPedido, dataPedido 'Data da compra', nome 'Nome produto', preco 'Preço (R$)' FROM pedido_has_produto
+SELECT id_pedido, data_pedido 'Data da compra', nome 'Nome produto', preco 'Preço (R$)' FROM pedido_has_produto
 INNER JOIN pedido
-ON pedido_has_produto.fk_pedido = pedido.idPedido
+ON pedido_has_produto.fk_pedido = pedido.id_pedido
 INNER JOIN produto
-on pedido_has_produto.fk_produto = produto.idProduto;
+on pedido_has_produto.fk_produto = produto.id_produto;
 
-SELECT idPedido, COUNT(nome) 'Quantidade de produtos' FROM pedido_has_produto
+/* SELECT id_pedido, COUNT(nome) 'Quantidade de produtos' FROM pedido_has_produto
 INNER JOIN pedido
-ON pedido_has_produto.fk_pedido = pedido.idPedido
+ON pedido_has_produto.fk_pedido = pedido.id_pedido
 INNER JOIN produto
-ON pedido_has_produto.fk_produto = produto.idProduto
-GROUP BY nome;
+ON pedido_has_produto.fk_produto = produto.id_produto
+GROUP BY nome;*/
 
-SELECT produto.nome, COUNT(pedido.idPedido) 'Quantidade de produtos' FROM pedido_has_produto
+SELECT produto.nome, COUNT(pedido.id_pedido) 'Quantidade de produtos' FROM pedido_has_produto
 INNER JOIN pedido
-ON pedido_has_produto.fk_pedido = pedido.idPedido
+ON pedido_has_produto.fk_pedido = pedido.id_pedido
 INNER JOIN produto
-ON pedido_has_produto.fk_produto = produto.idProduto
+ON pedido_has_produto.fk_produto = produto.id_produto
 GROUP BY nome;
 
